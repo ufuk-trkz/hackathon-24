@@ -6,7 +6,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var newGameButton: SKLabelNode!
     
     var ball: SKSpriteNode!
-    var skyColor: SKColor!
     var playersTextureUp: SKTexture!
     var playersTextureDown: SKTexture!
     var movePlayersAndRemove: SKAction!
@@ -30,21 +29,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
         self.physicsWorld.contactDelegate = self
         
-        skyColor = SKColor(red: 81.0/255.0, green: 192.0/255.0, blue: 201.0/255.0, alpha: 1.0)
-        self.backgroundColor = skyColor
-        
         moving = SKNode()
         self.addChild(moving)
         players = SKNode()
         moving.addChild(players)
         
-        let groundTexture = SKTexture(imageNamed: "land")
+        let groundTexture = SKTexture(imageNamed: "crowd")
         groundTexture.filteringMode = .nearest
-        
         let moveGroundSprite = SKAction.moveBy(x: -groundTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.02 * groundTexture.size().width * 2.0))
         let resetGroundSprite = SKAction.moveBy(x: groundTexture.size().width * 2.0, y: 0, duration: 0.0)
         let moveGroundSpritesForever = SKAction.repeatForever(SKAction.sequence([moveGroundSprite,resetGroundSprite]))
-        
         for i in 0 ..< 2 + Int(self.frame.size.width / ( groundTexture.size().width * 2 )) {
             let i = CGFloat(i)
             let sprite = SKSpriteNode(texture: groundTexture)
@@ -53,24 +47,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             sprite.run(moveGroundSpritesForever)
             moving.addChild(sprite)
         }
-        
         let skyTexture = SKTexture(imageNamed: "field")
         skyTexture.filteringMode = .nearest
-        
         let moveSkySprite = SKAction.moveBy(x: -skyTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.01 * skyTexture.size().width * 2.0))
         let resetSkySprite = SKAction.moveBy(x: skyTexture.size().width * 2.0, y: 0, duration: 0.0)
         let moveSkySpritesForever = SKAction.repeatForever(SKAction.sequence([moveSkySprite,resetSkySprite]))
-        
         for i in 0 ..< 2 + Int(self.frame.size.width / ( skyTexture.size().width * 2 )) {
             let i = CGFloat(i)
             let sprite = SKSpriteNode(texture: skyTexture)
             sprite.setScale(2.0)
             sprite.zPosition = -20
-            sprite.position = CGPoint(x: i * sprite.size.width, y: sprite.size.height / 2.0 + groundTexture.size().height * 2.0)
+            sprite.position = CGPoint(x: i * sprite.size.width, y: sprite.size.height / 2.0 + groundTexture.size().height)
             sprite.run(moveSkySpritesForever)
             moving.addChild(sprite)
         }
-        
         playersTextureUp = SKTexture(imageNamed: "team-1")
         playersTextureUp.filteringMode = .nearest
         playersTextureDown = SKTexture(imageNamed: "team-2")
@@ -107,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         let ground = SKNode()
         ground.position = CGPoint(x: 0, y: groundTexture.size().height)
-        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: groundTexture.size().height * 2.0))
+        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: groundTexture.size().height))
         ground.physicsBody?.isDynamic = false
         ground.physicsBody?.categoryBitMask = worldCategory
         self.addChild(ground)
@@ -201,7 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         highScoreLabelNode.text = String("HighScore: \(highScore)")
         score = 0
         scoreLabelNode.text = String("\(score) - 0")
-
+        
         moving.speed = 1
     }
     
@@ -237,7 +227,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         if moving.speed > 0 {
             if ( contact.bodyA.categoryBitMask & scoreCategory ) == scoreCategory || ( contact.bodyB.categoryBitMask & scoreCategory ) == scoreCategory {
                 score += 1
-
+                
                 scoreLabelNode.text = String("\(score) - 0")
                 highScoreLabelNode.text = String("HighScore: \(highScore)")
                 
@@ -250,15 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 ball.physicsBody?.collisionBitMask = worldCategory
                 ball.run(  SKAction.rotate(byAngle: CGFloat(Double.pi) * CGFloat(ball.position.y) * 0.01, duration:1), completion:{self.ball.speed = 0 })
                 
-                
-                self.removeAction(forKey: "flash")
-                self.run(SKAction.sequence([SKAction.repeat(SKAction.sequence([SKAction.run({
-                    self.backgroundColor = SKColor(red: 1, green: 0, blue: 0, alpha: 1.0)
-                }),SKAction.wait(forDuration: TimeInterval(0.05)), SKAction.run({
-                    self.backgroundColor = self.skyColor
-                }), SKAction.wait(forDuration: TimeInterval(0.05))]), count:4), SKAction.run({
-                    self.canRestart = true
-                })]), withKey: "flash")
+                self.canRestart = true
             }
         }
         else {
