@@ -89,13 +89,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ballTexture.filteringMode = .nearest
         
         ball = SKSpriteNode(texture: ballTexture)
-        ball.setScale(1)
-        ball.position = CGPoint(x: self.frame.size.width * 0.35, y:self.frame.size.height * 0.6)
+        ball.setScale(0.5)
+        ball.position = CGPoint(x: self.frame.size.width * 0.35, y: self.frame.size.height * 0.6)
         
         
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.height / 2.0)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.height / 1.2)
         ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.allowsRotation = false
+        ball.physicsBody?.allowsRotation = true
         
         ball.physicsBody?.categoryBitMask = ballCategory
         ball.physicsBody?.collisionBitMask = worldCategory | pipeCategory
@@ -113,16 +113,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         score = 0
         scoreLabelNode = SKLabelNode(fontNamed:"VT323")
         scoreLabelNode.fontSize = 36
-        scoreLabelNode.position = CGPoint( x: self.frame.midX, y: 3 * self.frame.size.height / 4 )
+        scoreLabelNode.position = CGPoint(x: self.frame.midX, y: 100)
         scoreLabelNode.zPosition = 100
-        scoreLabelNode.text = String(score)
+        scoreLabelNode.text = String("\(score) - 0")
         self.addChild(scoreLabelNode)
         
         newGameButton = SKLabelNode(fontNamed: "VT323")
         newGameButton.text = "New Game"
         newGameButton.fontSize = 20
         newGameButton.fontColor = SKColor.white
-        newGameButton.position = CGPoint(x: self.frame.midX, y: scoreLabelNode.frame.minY - newGameButton.frame.height - 70)
+        newGameButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         newGameButton.isHidden = true
         self.addChild(newGameButton)
     }
@@ -181,8 +181,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         canRestart = false
         
         score = 0
-        scoreLabelNode.text = String(score)
-        
+        scoreLabelNode.text = String("\(score) - 0")
+
         moving.speed = 1
     }
     
@@ -218,8 +218,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         if moving.speed > 0 {
             if ( contact.bodyA.categoryBitMask & scoreCategory ) == scoreCategory || ( contact.bodyB.categoryBitMask & scoreCategory ) == scoreCategory {
                 score += 1
-                scoreLabelNode.text = String(score)
-                
+                scoreLabelNode.text = String("\(score) - 0")
+
                 scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
             } 
             else {
