@@ -85,18 +85,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         let spawnThenDelayForever = SKAction.repeatForever(spawnThenDelay)
         self.run(spawnThenDelayForever)
         
-        let birdTexture1 = SKTexture(imageNamed: "ball-soccer")
-        birdTexture1.filteringMode = .nearest
-        let birdTexture2 = SKTexture(imageNamed: "ball-soccer")
-        birdTexture2.filteringMode = .nearest
+        let ballTexture = SKTexture(imageNamed: "ball-soccer")
+        ballTexture.filteringMode = .nearest
         
-        let anim = SKAction.animate(with: [birdTexture1, birdTexture2], timePerFrame: 0.2)
-        let flap = SKAction.repeatForever(anim)
-        
-        ball = SKSpriteNode(texture: birdTexture1)
-        ball.setScale(2.0)
+        ball = SKSpriteNode(texture: ballTexture)
+        ball.setScale(1)
         ball.position = CGPoint(x: self.frame.size.width * 0.35, y:self.frame.size.height * 0.6)
-        ball.run(flap)
         
         
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.height / 2.0)
