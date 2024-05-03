@@ -128,6 +128,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func spawnPipes() {
+        let randomInt1 = Int.random(in: 1..<13)
+        let randomInt2 = Int.random(in: 1..<13)
+        playersTextureUp = SKTexture(imageNamed: "team-\(randomInt1)")
+        playersTextureUp.filteringMode = .nearest
+        playersTextureDown = SKTexture(imageNamed: "team-\(randomInt2)")
+        playersTextureDown.filteringMode = .nearest
+        
+        
         let pipePair = SKNode()
         pipePair.position = CGPoint( x: self.frame.size.width + playersTextureUp.size().width * 2, y: 0 )
         pipePair.zPosition = -10
