@@ -14,7 +14,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var players: SKNode!
     var canRestart = Bool()
     var scoreLabelNode: SKLabelNode!
+    var highScoreLabelNode: SKLabelNode!
     var score = NSInteger()
+    var highScore = UserDefaults.standard.integer(forKey: "highScore")
     
     let ballCategory: UInt32 = 1 << 0
     let worldCategory: UInt32 = 1 << 1
@@ -89,13 +91,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ballTexture.filteringMode = .nearest
         
         ball = SKSpriteNode(texture: ballTexture)
-        ball.setScale(1)
-        ball.position = CGPoint(x: self.frame.size.width * 0.35, y:self.frame.size.height * 0.6)
+        ball.setScale(0.5)
+        ball.position = CGPoint(x: self.frame.size.width * 0.35, y: self.frame.size.height * 0.6)
         
         
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.height / 2.0)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.height / 1.2)
         ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.allowsRotation = false
+        ball.physicsBody?.allowsRotation = true
         
         ball.physicsBody?.categoryBitMask = ballCategory
         ball.physicsBody?.collisionBitMask = worldCategory | pipeCategory
@@ -113,16 +115,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         score = 0
         scoreLabelNode = SKLabelNode(fontNamed:"VT323")
         scoreLabelNode.fontSize = 36
-        scoreLabelNode.position = CGPoint( x: self.frame.midX, y: 3 * self.frame.size.height / 4 )
+        scoreLabelNode.position = CGPoint(x: self.frame.midX, y: 100)
         scoreLabelNode.zPosition = 100
-        scoreLabelNode.text = String(score)
+        scoreLabelNode.text = String("\(score) - 0")
         self.addChild(scoreLabelNode)
+        
+        highScoreLabelNode = SKLabelNode(fontNamed:"VT323")
+        highScoreLabelNode.fontSize = 16
+        highScoreLabelNode.position = CGPoint( x: self.frame.midX, y: 8 * self.frame.size.height / 9 )
+        highScoreLabelNode.zPosition = 100
+        highScoreLabelNode.text = String("HighScore: \(highScore)")
+        self.addChild(highScoreLabelNode)
         
         newGameButton = SKLabelNode(fontNamed: "VT323")
         newGameButton.text = "New Game"
         newGameButton.fontSize = 20
         newGameButton.fontColor = SKColor.white
-        newGameButton.position = CGPoint(x: self.frame.midX, y: scoreLabelNode.frame.minY - newGameButton.frame.height - 70)
+        newGameButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         newGameButton.isHidden = true
         self.addChild(newGameButton)
     }
@@ -187,49 +196,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         players.removeAllChildren()
         
         canRestart = false
-        
+        highScore = max(score, highScore)
+        UserDefaults.standard.setValue(highScore, forKey: "highScore")
+        highScoreLabelNode.text = String("HighScore: \(highScore)")
         score = 0
-        scoreLabelNode.text = String(score)
-        
+        scoreLabelNode.text = String("\(score) - 0")
+
         moving.speed = 1
     }
     
     var touching = false
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            touching = true
-            
-            if moving.speed > 0  {
-                ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
-            } else if canRestart {
-                for touch in touches {
-                    let location = touch.location(in: self)
-                    if newGameButton.contains(location) {
-                        resetScene()
-                        newGameButton.isHidden = true
-                    }
+        touching = true
+        
+        if moving.speed > 0  {
+            ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
+        } else if canRestart {
+            for touch in touches {
+                let location = touch.location(in: self)
+                if newGameButton.contains(location) {
+                    resetScene()
+                    newGameButton.isHidden = true
                 }
             }
         }
-        
-        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-            touching = false
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touching = false
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if touching {
+            ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
         }
-        
-        override func update(_ currentTime: TimeInterval) {
-            if touching {
-                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-            }
-        }
+    }
     
     func didBegin(_ contact: SKPhysicsContact) {
         if moving.speed > 0 {
             if ( contact.bodyA.categoryBitMask & scoreCategory ) == scoreCategory || ( contact.bodyB.categoryBitMask & scoreCategory ) == scoreCategory {
                 score += 1
-                scoreLabelNode.text = String(score)
+
+                scoreLabelNode.text = String("\(score) - 0")
+                highScoreLabelNode.text = String("HighScore: \(highScore)")
                 
                 scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
-            } 
+            }
             else {
                 
                 moving.speed = 0
@@ -241,11 +254,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 self.removeAction(forKey: "flash")
                 self.run(SKAction.sequence([SKAction.repeat(SKAction.sequence([SKAction.run({
                     self.backgroundColor = SKColor(red: 1, green: 0, blue: 0, alpha: 1.0)
-                    }),SKAction.wait(forDuration: TimeInterval(0.05)), SKAction.run({
-                        self.backgroundColor = self.skyColor
-                        }), SKAction.wait(forDuration: TimeInterval(0.05))]), count:4), SKAction.run({
-                            self.canRestart = true
-                            })]), withKey: "flash")
+                }),SKAction.wait(forDuration: TimeInterval(0.05)), SKAction.run({
+                    self.backgroundColor = self.skyColor
+                }), SKAction.wait(forDuration: TimeInterval(0.05))]), count:4), SKAction.run({
+                    self.canRestart = true
+                })]), withKey: "flash")
             }
         }
         else {
