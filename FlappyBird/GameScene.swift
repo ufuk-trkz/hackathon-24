@@ -36,26 +36,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         players = SKNode()
         moving.addChild(players)
         
-        let groundTexture = SKTexture(imageNamed: "land")
-        groundTexture.filteringMode = .nearest
-        
-        let moveGroundSprite = SKAction.moveBy(x: -groundTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.02 * groundTexture.size().width * 2.0))
-        let resetGroundSprite = SKAction.moveBy(x: groundTexture.size().width * 2.0, y: 0, duration: 0.0)
-        let moveGroundSpritesForever = SKAction.repeatForever(SKAction.sequence([moveGroundSprite,resetGroundSprite]))
-        
-        for i in 0 ..< 2 + Int(self.frame.size.width / ( groundTexture.size().width * 2 )) {
-            let i = CGFloat(i)
-            let sprite = SKSpriteNode(texture: groundTexture)
-            sprite.setScale(2.0)
-            sprite.position = CGPoint(x: i * sprite.size.width, y: sprite.size.height / 2.0)
-            sprite.run(moveGroundSpritesForever)
-            moving.addChild(sprite)
-        }
-        
-        let skyTexture = SKTexture(imageNamed: "sky")
+        let skyTexture = SKTexture(imageNamed: "field")
         skyTexture.filteringMode = .nearest
         
-        let moveSkySprite = SKAction.moveBy(x: -skyTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.1 * skyTexture.size().width * 2.0))
+        let moveSkySprite = SKAction.moveBy(x: -skyTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.05 * skyTexture.size().width * 2.0))
         let resetSkySprite = SKAction.moveBy(x: skyTexture.size().width * 2.0, y: 0, duration: 0.0)
         let moveSkySpritesForever = SKAction.repeatForever(SKAction.sequence([moveSkySprite,resetSkySprite]))
         
@@ -64,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let sprite = SKSpriteNode(texture: skyTexture)
             sprite.setScale(2.0)
             sprite.zPosition = -20
-            sprite.position = CGPoint(x: i * sprite.size.width, y: sprite.size.height / 2.0 + groundTexture.size().height * 2.0)
+            sprite.position = CGPoint(x: i * sprite.size.width, y: sprite.size.height / 2.0)
             sprite.run(moveSkySpritesForever)
             moving.addChild(sprite)
         }
@@ -110,8 +94,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.addChild(ball)
         
         let ground = SKNode()
-        ground.position = CGPoint(x: 0, y: groundTexture.size().height)
-        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: groundTexture.size().height * 2.0))
+        ground.position = CGPoint(x: 0, y: skyTexture.size().height)
+        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: 32.0))
         ground.physicsBody?.isDynamic = false
         ground.physicsBody?.categoryBitMask = worldCategory
         self.addChild(ground)
