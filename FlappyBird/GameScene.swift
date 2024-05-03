@@ -52,10 +52,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             moving.addChild(sprite)
         }
         
-        let skyTexture = SKTexture(imageNamed: "sky")
+        let skyTexture = SKTexture(imageNamed: "field")
         skyTexture.filteringMode = .nearest
         
-        let moveSkySprite = SKAction.moveBy(x: -skyTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.1 * skyTexture.size().width * 2.0))
+        let moveSkySprite = SKAction.moveBy(x: -skyTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.01 * skyTexture.size().width * 2.0))
         let resetSkySprite = SKAction.moveBy(x: skyTexture.size().width * 2.0, y: 0, duration: 0.0)
         let moveSkySpritesForever = SKAction.repeatForever(SKAction.sequence([moveSkySprite,resetSkySprite]))
         
@@ -69,9 +69,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             moving.addChild(sprite)
         }
         
-        playersTextureUp = SKTexture(imageNamed: "PipeUp")
+        playersTextureUp = SKTexture(imageNamed: "team-1")
         playersTextureUp.filteringMode = .nearest
-        playersTextureDown = SKTexture(imageNamed: "PipeDown")
+        playersTextureDown = SKTexture(imageNamed: "team-2")
         playersTextureDown.filteringMode = .nearest
         
         let distanceToMove = CGFloat(self.frame.size.width + 2.0 * playersTextureUp.size().width)
