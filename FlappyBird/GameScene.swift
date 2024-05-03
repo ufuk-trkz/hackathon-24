@@ -69,9 +69,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             moving.addChild(sprite)
         }
         
-        playersTextureUp = SKTexture(imageNamed: "PlayersUp")
+        playersTextureUp = SKTexture(imageNamed: "PipeUp")
         playersTextureUp.filteringMode = .nearest
-        playersTextureDown = SKTexture(imageNamed: "PlayersDown")
+        playersTextureDown = SKTexture(imageNamed: "PipeDown")
         playersTextureDown.filteringMode = .nearest
         
         let distanceToMove = CGFloat(self.frame.size.width + 2.0 * playersTextureUp.size().width)
@@ -85,7 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         let spawnThenDelayForever = SKAction.repeatForever(spawnThenDelay)
         self.run(spawnThenDelayForever)
         
-        let birdTexture1 = SKTexture(imageNamed: "ball")
+        let birdTexture1 = SKTexture(imageNamed: "bird-01")
         birdTexture1.filteringMode = .nearest
         let birdTexture2 = SKTexture(imageNamed: "bird-02")
         birdTexture2.filteringMode = .nearest
