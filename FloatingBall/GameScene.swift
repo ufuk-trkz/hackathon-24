@@ -81,6 +81,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         let ballTexture = SKTexture(imageNamed: "ball-soccer")
         ballTexture.filteringMode = .nearest
         
+        let lineHeight: CGFloat = 10
+
+        // Bottom Line
+        let bottomLine = SKSpriteNode(color: .white, size: CGSize(width: self.frame.size.width, height: lineHeight))
+        bottomLine.position = CGPoint(x: self.frame.midX, y: groundTexture.size().height * 1.5)
+        self.addChild(bottomLine)
+
+        bottomLine.physicsBody = SKPhysicsBody(rectangleOf: bottomLine.size)
+        bottomLine.physicsBody?.isDynamic = false
+        bottomLine.physicsBody?.categoryBitMask = worldCategory
+
+        // Top Line
+        let safeAreaTopInset: CGFloat
+
+        if #available(iOS 11.0, *) {
+          if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            safeAreaTopInset = scene.windows.first!.safeAreaInsets.top
+          } else {
+            safeAreaTopInset = 0
+          }
+        } else {
+            safeAreaTopInset = 0
+        }
+
+        let topLine = SKSpriteNode(color: .white, size: CGSize(width: self.frame.size.width, height: lineHeight))
+        topLine.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - safeAreaTopInset)
+        topLine.zPosition = 1
+        self.addChild(topLine)
+
+        topLine.physicsBody = SKPhysicsBody(rectangleOf: topLine.size)
+        topLine.physicsBody?.isDynamic = false
+        topLine.physicsBody?.categoryBitMask = worldCategory
+
         ball = SKSpriteNode(texture: ballTexture)
         ball.setScale(0.5)
         ball.position = CGPoint(x: self.frame.size.width * 0.35, y: self.frame.size.height * 0.6)
