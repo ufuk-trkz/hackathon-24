@@ -71,17 +71,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         playersTextureDown.filteringMode = .nearest
         
         let distanceToMove = CGFloat(self.frame.size.width + 2.0 * playersTextureUp.size().width)
-        
         let movePipes = SKAction.moveBy(x: -distanceToMove, y: 0.0, duration: TimeInterval(0.01 * distanceToMove))
         let removePipes = SKAction.removeFromParent()
         movePlayersAndRemove = SKAction.sequence([movePipes, removePipes])
         
-        let spawn = SKAction.run(spawnPipes)
-        let value = 2.0 - (moving.speed / 10)
-        let delay = SKAction.wait(forDuration: TimeInterval(value))
-        let spawnThenDelay = SKAction.sequence([spawn, delay])
-        let spawnThenDelayForever = SKAction.repeatForever(spawnThenDelay)
-        self.run(spawnThenDelayForever)
+        spawnStuff()
         
         let ballTexture = SKTexture(imageNamed: "ball-soccer")
         ballTexture.filteringMode = .nearest
@@ -174,6 +168,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.addChild(newGameButton)
     }
     
+    func spawnStuff() {
+        removeAction(forKey: "spawn")
+        
+        let spawn = SKAction.run(spawnPipes)
+        let value1 = 3.429 - 1.671 * CGFloat(moving.speed)
+        let value2 = 0.236 * CGFloat(moving.speed) * CGFloat(moving.speed)
+        let value3 = 0.011 * CGFloat(moving.speed) * CGFloat(moving.speed) * CGFloat(moving.speed)
+        let value4 = -0.003 * CGFloat(moving.speed) * CGFloat(moving.speed) * CGFloat(moving.speed) * CGFloat(moving.speed)
+        let value = value1 + value2 + value3 + value4
+        let delay = SKAction.wait(forDuration: TimeInterval(value))
+        let spawnThenDelay = SKAction.sequence([spawn, delay])
+        let spawnThenDelayForever = SKAction.repeatForever(spawnThenDelay)
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.run(spawnThenDelayForever, withKey: "spawn")
+        }
+    }
+    
     func spawnPipes() {
         let randomInt1 = Int.random(in: 1..<13)
         let randomInt2 = Int.random(in: 1..<13)
@@ -238,7 +251,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         score = 0
         scoreLabelNode.text = String("\(score) - \(highScore)")
         
-        moving.speed = 1
+        moving.speed = 1.0
+        spawnStuff()
     }
     
     var touching = false
@@ -287,7 +301,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
                 
                 if score % 10 == 0 {
-                    moving.speed += 0.4
+                    moving.speed += 0.5
+                    spawnStuff()
                 }
             }
             else {

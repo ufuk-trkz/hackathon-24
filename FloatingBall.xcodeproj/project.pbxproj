@@ -164,7 +164,7 @@
 				TargetAttributes = {
 					437451F9193D163700654986 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 2ZR247X4CU;
+						DevelopmentTeam = ZF6FKV9DQV;
 						LastSwiftMigration = 1110;
 					};
 					4374520F193D163800654986 = {
@@ -367,7 +367,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2ZR247X4CU;
+				DEVELOPMENT_TEAM = ZF6FKV9DQV;
 				INFOPLIST_FILE = FloatingBall/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FloatingBall;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
@@ -386,7 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2ZR247X4CU;
+				DEVELOPMENT_TEAM = ZF6FKV9DQV;
 				INFOPLIST_FILE = FloatingBall/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FloatingBall;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
