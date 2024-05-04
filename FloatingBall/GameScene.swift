@@ -257,7 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
 
 
 extension SKAction {
-    class func shake(_ initialPosition: CGPoint, duration: Float, amplitudeX: Int = 12, amplitudeY: Int = 3) -> SKAction {
+    class func shake(_ initialPosition: CGPoint, duration: Float, amplitudeX: Int = 20, amplitudeY: Int = 10) -> SKAction {
         let startingX = initialPosition.x
         let startingY = initialPosition.y
         let numberOfShakes = duration / 0.015
