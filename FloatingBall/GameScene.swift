@@ -5,6 +5,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     let verticalPipeGap = 150.0
     
     var newGameButton: SKLabelNode!
+    var soundIsPlaying: Bool = false
     
     var ball: SKSpriteNode!
     var playersTextureUp: SKTexture!
@@ -24,7 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     let scoreCategory: UInt32 = 1 << 3
     
     override func didMove(to view: SKView) {
-        
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
         canRestart = true
         
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
@@ -210,6 +212,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                     resetScene()
                     newGameButton.isHidden = true
                     gameEndImage.isHidden = true
+                    
+                    if soundIsPlaying == false {
+                        soundIsPlaying = true
+                        backgroundMusic.removeFromParent()
+                        addChild(backgroundMusic)
+                    }
                 }
             }
         }
@@ -242,6 +250,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 ball.run(  SKAction.rotate(byAngle: CGFloat(Double.pi) * CGFloat(ball.position.y) * 0.01, duration:1), completion:{self.ball.speed = 0 })
                 
                 self.canRestart = true
+                
+                soundIsPlaying = false
+                backgroundMusic.run(SKAction.stop())
             }
         }
         else {
@@ -251,8 +262,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             
             let shake = SKAction.shake(gameEndImage.position, duration: 0.5)
             gameEndImage.run(shake)
+            run(soundDying)
         }
     }
+    
+    var soundDying = SKAction.playSoundFileNamed("Error.wav", waitForCompletion: false)
+    var soundPlay = SKAction.playSoundFileNamed("gameplay.wav", waitForCompletion: true)
+    var backgroundMusic: SKAudioNode = SKAudioNode(fileNamed: "gameplay.wav")
 }
 
 
