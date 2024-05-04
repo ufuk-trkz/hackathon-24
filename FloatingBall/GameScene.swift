@@ -71,12 +71,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         playersTextureDown.filteringMode = .nearest
         
         let distanceToMove = CGFloat(self.frame.size.width + 2.0 * playersTextureUp.size().width)
-        let movePipes = SKAction.moveBy(x: -distanceToMove, y:0.0, duration:TimeInterval(0.01 * distanceToMove))
+        
+        let movePipes = SKAction.moveBy(x: -distanceToMove, y: 0.0, duration: TimeInterval(0.01 * distanceToMove))
         let removePipes = SKAction.removeFromParent()
         movePlayersAndRemove = SKAction.sequence([movePipes, removePipes])
         
         let spawn = SKAction.run(spawnPipes)
-        let delay = SKAction.wait(forDuration: TimeInterval(2.0))
+        let value = 2.0 - (moving.speed / 10)
+        let delay = SKAction.wait(forDuration: TimeInterval(value))
         let spawnThenDelay = SKAction.sequence([spawn, delay])
         let spawnThenDelayForever = SKAction.repeatForever(spawnThenDelay)
         self.run(spawnThenDelayForever)
@@ -222,11 +224,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
     }
     
-    func resetScene (){
+    func resetScene() {
         ball.position = CGPoint(x: self.frame.size.width / 2.5, y: self.frame.midY)
         ball.physicsBody?.velocity = CGVector( dx: 0, dy: 0 )
         ball.physicsBody?.collisionBitMask = worldCategory | pipeCategory
-        ball.speed = 1.0
         ball.zRotation = 0.0
         
         players.removeAllChildren()
@@ -278,12 +279,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func didBegin(_ contact: SKPhysicsContact) {
         if moving.speed > 0 {
-            if ( contact.bodyA.categoryBitMask & scoreCategory ) == scoreCategory || ( contact.bodyB.categoryBitMask & scoreCategory ) == scoreCategory {
+            if (contact.bodyA.categoryBitMask & scoreCategory) == scoreCategory || (contact.bodyB.categoryBitMask & scoreCategory) == scoreCategory {
                 score += 1
                 
                 scoreLabelNode.text = String("\(score) - \(highScore)")
                 
                 scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
+                
+                if score % 10 == 0 {
+                    moving.speed += 0.4
+                }
             }
             else {
                 

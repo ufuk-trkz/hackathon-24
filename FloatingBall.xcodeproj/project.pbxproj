@@ -164,7 +164,7 @@
 				TargetAttributes = {
 					437451F9193D163700654986 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = ZF6FKV9DQV;
+						DevelopmentTeam = 2ZR247X4CU;
 						LastSwiftMigration = 1110;
 					};
 					4374520F193D163800654986 = {
@@ -367,11 +367,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZF6FKV9DQV;
+				DEVELOPMENT_TEAM = 2ZR247X4CU;
 				INFOPLIST_FILE = FloatingBall/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FloatingBall;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jessica.bohlandFloatingBall;
@@ -386,11 +386,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZF6FKV9DQV;
+				DEVELOPMENT_TEAM = 2ZR247X4CU;
 				INFOPLIST_FILE = FloatingBall/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FloatingBall;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jessica.bohlandFloatingBall;
