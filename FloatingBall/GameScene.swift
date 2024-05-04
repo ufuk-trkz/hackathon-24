@@ -295,12 +295,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             
             let shake = SKAction.shake(gameEndImage.position, duration: 0.5)
             gameEndImage.run(shake)
-            run(soundDying)
+            
+            if score > highScore {
+                run(whistleGood)
+            } else {
+                run(whistleBad)
+            }
         }
     }
     
     var soundDying = SKAction.playSoundFileNamed("Error.wav", waitForCompletion: false)
-    var soundPlay = SKAction.playSoundFileNamed("gameplay.wav", waitForCompletion: true)
+    var whistleGood = SKAction.playSoundFileNamed("whistle-good.wav", waitForCompletion: false)
+    var whistleBad = SKAction.playSoundFileNamed("whistle-bad.wav", waitForCompletion: false)
     var backgroundMusic: SKAudioNode = SKAudioNode(fileNamed: "gameplay.wav")
 }
 

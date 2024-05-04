@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		376E26A82BE6275300634F42 /* Error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 376E26A72BE6275300634F42 /* Error.wav */; };
 		376E26AA2BE6281000634F42 /* gameplay.wav in Resources */ = {isa = PBXBuildFile; fileRef = 376E26A92BE6281000634F42 /* gameplay.wav */; };
+		376E26AE2BE62D6C00634F42 /* whistle-good.wav in Resources */ = {isa = PBXBuildFile; fileRef = 376E26AB2BE62D6C00634F42 /* whistle-good.wav */; };
+		376E26B02BE62D6C00634F42 /* whistle-bad.wav in Resources */ = {isa = PBXBuildFile; fileRef = 376E26AD2BE62D6C00634F42 /* whistle-bad.wav */; };
 		43745200193D163700654986 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437451FF193D163700654986 /* AppDelegate.swift */; };
 		43745202193D163700654986 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 43745201193D163700654986 /* GameScene.sks */; };
 		43745204193D163800654986 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43745203193D163800654986 /* GameScene.swift */; };
@@ -32,6 +34,8 @@
 /* Begin PBXFileReference section */
 		376E26A72BE6275300634F42 /* Error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Error.wav; sourceTree = "<group>"; };
 		376E26A92BE6281000634F42 /* gameplay.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gameplay.wav; sourceTree = "<group>"; };
+		376E26AB2BE62D6C00634F42 /* whistle-good.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "whistle-good.wav"; sourceTree = "<group>"; };
+		376E26AD2BE62D6C00634F42 /* whistle-bad.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "whistle-bad.wav"; sourceTree = "<group>"; };
 		437451FA193D163700654986 /* FloatingBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloatingBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		437451FE193D163700654986 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		437451FF193D163700654986 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 		437451FC193D163700654986 /* FloatingBall */ = {
 			isa = PBXGroup;
 			children = (
+				376E26AB2BE62D6C00634F42 /* whistle-good.wav */,
+				376E26AD2BE62D6C00634F42 /* whistle-bad.wav */,
 				376E26A92BE6281000634F42 /* gameplay.wav */,
 				376E26A72BE6275300634F42 /* Error.wav */,
 				6E1623DF1E24FC4E00FB2C72 /* LaunchScreen.storyboard */,
@@ -196,7 +202,9 @@
 				43745202193D163700654986 /* GameScene.sks in Resources */,
 				437A3DBA193D326A00909BA0 /* bird.atlas in Resources */,
 				376E26A82BE6275300634F42 /* Error.wav in Resources */,
+				376E26AE2BE62D6C00634F42 /* whistle-good.wav in Resources */,
 				6E1623E01E24FC4E00FB2C72 /* LaunchScreen.storyboard in Resources */,
+				376E26B02BE62D6C00634F42 /* whistle-bad.wav in Resources */,
 				43745209193D163800654986 /* Main.storyboard in Resources */,
 				376E26AA2BE6281000634F42 /* gameplay.wav in Resources */,
 			);
