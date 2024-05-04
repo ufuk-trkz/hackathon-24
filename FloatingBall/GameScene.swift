@@ -18,6 +18,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var score = NSInteger()
     var highScore = UserDefaults.standard.integer(forKey: "highScore")
     var gameEndImage: SKSpriteNode!
+    var gameEndTrophyImage: SKSpriteNode!
     
     let ballCategory: UInt32 = 1 << 0
     let worldCategory: UInt32 = 1 << 1
@@ -153,6 +154,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         gameEndImage.size = CGSize(width: 100.0, height: 130.0)
         gameEndImage.isHidden = true
         self.addChild(gameEndImage)
+        
+        let gameEndTrophyTexture = SKTexture(imageNamed: "Trophy")
+        gameEndTrophyTexture.filteringMode = .nearest
+        gameEndTrophyImage = SKSpriteNode(texture: gameEndTrophyTexture)
+        gameEndTrophyImage.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 100)
+        gameEndTrophyImage.size = CGSize(width: 100.0, height: 130.0)
+        gameEndTrophyImage.isHidden = true
+        self.addChild(gameEndTrophyImage)
                 
         newGameButton = SKLabelNode(fontNamed: "VT323")
         newGameButton.text = "New Game"
@@ -245,6 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                     resetScene()
                     newGameButton.isHidden = true
                     gameEndImage.isHidden = true
+                    gameEndTrophyImage.isHidden = true
                     
                     if soundIsPlaying == false {
                         soundIsPlaying = true
@@ -290,15 +300,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
         else {
             newGameButton.isHidden = false
-            gameEndImage.isHidden = false
+            
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
             
             let shake = SKAction.shake(gameEndImage.position, duration: 0.5)
             gameEndImage.run(shake)
             
             if score > highScore {
+                gameEndTrophyImage.isHidden = false
                 run(whistleGood)
             } else {
+                gameEndImage.isHidden = false
                 run(whistleBad)
             }
         }
